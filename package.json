@@ -1,0 +1,44 @@
+{
+  "name": "zxing-library-barcode-reading",
+  "version": "0.0.1",
+  "description": "A simple example repository for the @zxing/library package",
+  "author": "Miles R",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "yarn build && TZ=utc cross-env NODE_ENV=development yarn start",
+    "start": "TZ=utc node ./dist/index.js",
+    "start:watch": "TZ=utc node-dev ./dist/index.js",
+    "start:debug": "TZ=utc node --inspect ./dist/index.js",
+    "bundle": "yarn clean && webpack && ./bundle.sh",
+    "deploy": "./deploy.sh",
+    "build": "tsc -b",
+    "build:watch": "yarn build --watch",
+    "build:clean": "yarn clean && yarn build",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "lint": "eslint --ext .ts src/",
+    "fix": "eslint --ext --fix .ts src/"
+  },
+  "dependencies": {
+    "@zxing/library": "^0.16.0",
+    "jpeg-js": "^0.3.7"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "cross-env": "6",
+    "eslint": "6",
+    "prettier": "1",
+    "terser-webpack-plugin": "2",
+    "ts-loader": "6",
+    "typescript": "3",
+    "webpack": "4",
+    "webpack-cli": "3",
+    "webpack-node-externals": "1"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-bitwise": 0,
+      "no-plusplus": 0
+    }
+  }
+}
