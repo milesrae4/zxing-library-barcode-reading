@@ -20,10 +20,12 @@
     "fix": "eslint --ext --fix .ts src/"
   },
   "dependencies": {
-    "@zxing/library": "^0.16.0",
-    "jpeg-js": "^0.3.7"
+    "@zxing/library": "^0.16.2",
+    "jpeg-js": "^0.3.7",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
+    "@types/text-encoding": "^0.0.35",
     "@types/node": "^13.11.1",
     "cross-env": "6",
     "eslint": "6",

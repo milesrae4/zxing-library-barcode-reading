@@ -3,23 +3,20 @@ import {
   DecodeHintType,
   RGBLuminanceSource,
   BinaryBitmap,
-  HybridBinarizer,
-  MultiFormatReader,
+  HybridBinarizer
 } from '@zxing/library/esm5';
+import PDF417Reader from '@zxing/library/esm5/core/pdf417/PDF417Reader';
+import StringEncoding from '@zxing/library/esm5/core/util/StringEncoding';
+import { TextDecoder } from 'text-encoding';
 import { decode } from 'jpeg-js';
 
+StringEncoding.customDecoder = (stringContent, encodingName) => new TextDecoder(encodingName).decode(stringContent);
+
 export const detectAndScan = (fileData: Buffer) => {
-  const barcodeScanner = new MultiFormatReader();
-  const hints = new Map();
-  const formats = [BarcodeFormat.PDF_417];
+  const barcodeScanner = new PDF417Reader();
   const rawFileData = decode(fileData);
 
   try {
-    hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-    hints.set(DecodeHintType.TRY_HARDER, true);
-
-    barcodeScanner.setHints(hints);
-
     const len = rawFileData.width * rawFileData.height;
 
     const luminancesUint8Array = new Uint8ClampedArray(len);
@@ -34,14 +31,14 @@ export const detectAndScan = (fileData: Buffer) => {
     const luminanceSource = new RGBLuminanceSource(
       luminancesUint8Array,
       rawFileData.width,
-      rawFileData.height,
+      rawFileData.height
     );
 
     const binaryBitmap = new BinaryBitmap(new HybridBinarizer(luminanceSource));
 
     const results = barcodeScanner.decode(binaryBitmap);
 
-    return results;
+    return results.getText();
   } catch (err) {
     console.error('Error Reading Barcode: ', err.message);
   }
